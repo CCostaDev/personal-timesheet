@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Personal Timesheet</title>
+  <meta name="theme-color" content="#0d6e6a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Timesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Each <section data-view> is one page. The router in js/app.js shows one at a time
+       based on the URL hash (#home, #week, #availability, #settings). -->
+  <main class="wrap">
+    <section data-view="home" id="view-home"></section>
+    <section data-view="week" id="view-week" hidden></section>
+    <section data-view="availability" id="view-availability" hidden></section>
+    <section data-view="settings" id="view-settings" hidden></section>
+  </main>
+
+  <!-- Shift editor: a bottom sheet shared by Home and Week -->
+  <div class="sheet-backdrop" id="sheet" hidden>
+    <form class="sheet" id="shiftForm" autocomplete="off">
+      <div class="sheet-head">
+        <h2 id="sheetTitle">Plan shift</h2>
+        <button type="button" class="ghost" id="sheetClose" aria-label="Close">✕</button>
+      </div>
+
+      <label>Date<input type="date" id="fDate" required></label>
+
+      <div class="field-label">Shift</div>
+      <div class="seg" id="fPresets"></div>
+
+      <div class="grid3">
+        <label>Start<input type="time" id="fStart"></label>
+        <label>End<input type="time" id="fEnd"></label>
+        <label>Break (min)<input type="number" id="fBreak" min="0" step="5"></label>
+      </div>
+
+      <div class="field-label">Status</div>
+      <div class="seg" id="fStatus">
+        <button type="button" data-v="planned">Planned</button>
+        <button type="button" data-v="worked">Worked</button>
+        <button type="button" data-v="cancelled">Didn't work</button>
+      </div>
+
+      <div class="grid2">
+        <label>To work (km)<input type="number" id="fOut" min="0" step="0.1"></label>
+        <label>Back home (km)<input type="number" id="fBack" min="0" step="0.1"></label>
+      </div>
+
+      <label class="check"><input type="checkbox" id="fTH"> Hours accepted in Tamigo</label>
+      <label class="check"><input type="checkbox" id="fTK"> Km claim added in Tamigo</label>
+      <label>Note<input type="text" id="fNote" placeholder="Anything to remember about this day"></label>
+
+      <div class="row">
+        <button type="submit" class="primary grow">Save</button>
+        <button type="button" class="danger" id="fDelete">Delete</button>
+      </div>
+    </form>
+  </div>
+
+  <nav class="tabs" aria-label="Main">
+    <a href="#home" data-tab="home"><span class="ti">◐</span>Today</a>
+    <a href="#week" data-tab="week"><span class="ti">▦</span>Week</a>
+    <a href="#availability" data-tab="availability"><span class="ti">✕</span>Days off</a>
+    <a href="#settings" data-tab="settings"><span class="ti">⚙</span>Settings</a>
+  </nav>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
